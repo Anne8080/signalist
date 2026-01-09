@@ -1,16 +1,15 @@
 'use client'
 import {useForm} from "react-hook-form";
-import {Form} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import InputField from "@/components/forms/InputField";
-import SelectField from "@/components/forms/SelectField";
-import {INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS} from "@/lib/constants";
-import {error} from "next/dist/build/output/log";
-import {CountrySelectField} from "@/components/forms/CountrySelectField";
 import FooterLink from "@/components/forms/FooterLink";
+import {signInWithEmail, signUpWithEmail} from "@/lib/actions/auth.actions";
+import {toast} from "sonner";
+import {useRouter} from "next/navigation";
 
 
 const SignIn = () => {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -22,11 +21,15 @@ const SignIn = () => {
         },
         mode: 'onBlur'
     })
-    const onSubmit= async (data: SignInFormData) => {
+    const onSubmit = async (data: SignInFormData) => {
         try {
-            console.log(data)
+            const result = await signInWithEmail(data);
+            if(result.success) router.push('/');
         } catch (e) {
-            console.error(e)
+            console.error(e);
+            toast.error('Sign in failed', {
+                description: e instanceof Error ? e.message : 'Failed to sign in.'
+            })
         }
     }
 

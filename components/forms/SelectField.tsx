@@ -23,7 +23,7 @@ const SelectField = ({ name, label, placeholder, options, control, error, requir
                     required: required ? `Please select ${label.toLowerCase()}` : false,
                 }}
                 render={({ field }) => (
-                    <Select value={placeholder} onValueChange={field.onChange}>
+                    <Select value={field.value} onValueChange={field.onChange}>
                         <SelectTrigger className="select-trigger">
                             <SelectValue placeholder={placeholder} />
                         </SelectTrigger>
